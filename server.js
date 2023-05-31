@@ -7,7 +7,6 @@ const app = express();
 const PORT = 3000;
 
 
-
 //middleware
 app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
@@ -20,10 +19,6 @@ app.get('/', (req, res) => {
 
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
-});
-
-app.get('*', (req, res) => {
-    res.send(path.join(__dirname, './public/index.html'));
 });
 
 
@@ -52,25 +47,30 @@ const readAndAppendToDb = (content, file) => {
 const WriteNewNoteToDb = (file, content) => {
     fs.writeFile(file, JSON.stringify(content, null, 4), (error) =>
     error
-        ? console.error('There was an error writing the file: ', error)
-        : console.log(`Information recorded at ${file}`)
+    ? console.error('There was an error writing the file: ', error)
+    : console.log(`Information recorded at ${file}`)
     )};
+    
+    //gets the req.body from user
+    app.post('/api/notes', (req, res) => {
+        if (req.body.title && req.body.text) {
+            let newNote = {
+                title: req.body.title,
+                text: req.body.text,
+                id: uuidv4(),
+            };
+            readAndAppendToDb(newNote, 'db/db.json');
+        } else {
+            res.json('Error')
+        }
+    })
 
-//gets the req.body from user
-app.post('/api/notes', (req, res) => {
-    if (req.body.title && req.body.text) {
-        let newNote = {
-            title: req.body.title,
-            text: req.body.text,
-            id: uuidv4(),
-        };
-        readAndAppendToDb(newNote, 'db/db.json');
-    } else {
-        res.json('Error')
-    }
-})
-
-//server listening on port 3000
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}!`)
+//wild card catches any path that aren't hard coded
+app.get('*', (req, res) => {
+    res.send(path.join(__dirname, './public/index.html'));
 });
+
+    //server listening on port 3000
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}!`)
+    });
