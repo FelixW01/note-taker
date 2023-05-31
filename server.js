@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = 3000;
@@ -27,15 +28,44 @@ app.get('*', (req, res) => {
 
 
 app.get('/api/notes', function(req, res) {
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
-        notes = [].concat(JSON.parse(data))  
-        res.json(notes);
-        console.log(data);
+    fs.readFile('db/db.json', 'utf8', (err, data) => {
+        const parsedData = JSON.parse(data)  
+        res.json(parsedData);
+        console.log(parsedData);
     })
 })
 
+const readAndAppendToDb = (content, file) => {
+    fs.readFile(file, 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const jsonData = JSON.parse(data);
+            jsonData.push(content)
+            WriteNewNoteToDb(file, jsonData)
+        }
+    });
+};
 
+const WriteNewNoteToDb = (file, content) => {
+    fs.writeFile(file, JSON.stringify(content, null, 4), (error) =>
+    error
+        ? console.error('There was an error writing the file: ', error)
+        : console.log(`Information recorded at ${file}`)
+    )};
 
+app.post('/api/notes', (req, res) => {
+    if (req.body.title && req.body.text) {
+        let newNote = {
+            title: req.body.title,
+            text: req.body.text,
+            id: uuidv4(),
+        };
+        readAndAppendToDb(newNote, 'db/db.json');
+    } else {
+        res.json('Error')
+    }
+})
 
 //server listening on port 3000
 app.listen(PORT, () => {
