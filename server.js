@@ -35,6 +35,7 @@ app.get('/api/notes', function(req, res) {
     })
 })
 
+//reads and appends to db.json
 const readAndAppendToDb = (content, file) => {
     fs.readFile(file, 'utf-8', (err, data) => {
         if (err) {
@@ -47,6 +48,7 @@ const readAndAppendToDb = (content, file) => {
     });
 };
 
+//writes new not to db.json
 const WriteNewNoteToDb = (file, content) => {
     fs.writeFile(file, JSON.stringify(content, null, 4), (error) =>
     error
@@ -54,6 +56,7 @@ const WriteNewNoteToDb = (file, content) => {
         : console.log(`Information recorded at ${file}`)
     )};
 
+//gets the req.body from user
 app.post('/api/notes', (req, res) => {
     if (req.body.title && req.body.text) {
         let newNote = {
