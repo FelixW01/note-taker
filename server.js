@@ -12,11 +12,12 @@ app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
 app.use(express.static('public'));
 
-//HTML routes
+//HTML routes 
+//Workflow #1
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));;
 });
-
+//#2
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
@@ -31,6 +32,7 @@ app.get('/api/notes', function(req, res) {
 })
 
 //reads and appends to db.json
+//#4
 const readAndAppendToDb = (content, file) => {
     fs.readFile(file, 'utf-8', (err, data) => {
         if (err) {
@@ -43,7 +45,8 @@ const readAndAppendToDb = (content, file) => {
     });
 };
 
-//writes new not to db.json
+//writes new note to db.json
+//#5
 const WriteNewNoteToDb = (file, content) => {
     fs.writeFile(file, JSON.stringify(content, null, 4), (error) =>
     error
@@ -51,19 +54,20 @@ const WriteNewNoteToDb = (file, content) => {
     : console.log(`Information recorded at ${file}`)
     )};
     
-    //gets the req.body from user
-    app.post('/api/notes', (req, res) => {
-        if (req.body.title && req.body.text) {
-            let newNote = {
-                title: req.body.title,
-                text: req.body.text,
-                id: uuidv4(),
-            };
-            readAndAppendToDb(newNote, 'db/db.json');
-        } else {
-            res.json('Error')
-        }
-    })
+//gets the req.body via post req from user
+//#3
+app.post('/api/notes', (req, res) => {
+     if (req.body.title && req.body.text) {
+          let newNote = {
+               title: req.body.title,
+               text: req.body.text,
+               id: uuidv4(),
+        };
+     readAndAppendToDb(newNote, 'db/db.json');
+     } else {
+        res.json('Error')
+     }
+})   
 
 //wild card catches any path that aren't hard coded
 app.get('*', (req, res) => {
