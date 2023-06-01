@@ -69,6 +69,28 @@ app.post('/api/notes', (req, res) => {
      }
 })   
 
+//handles deleteNote when the delete button is pressed
+function deleteNote(id, file) {
+    fs.readFile(file, 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const jsonData = JSON.parse(data);
+            //filters the jsonData for notes that doesnt contain the note.id
+            const newJsonData = jsonData.filter((note) => note.id !== id);
+            //runs the writeNotetoDB with the newJsonData without the note that contains the selected id
+            WriteNewNoteToDb(file, newJsonData)
+        }
+    }); 
+}
+
+//delete request that takes in the id of the clicked note
+app.delete('/api/notes/:id', (req, res) => {
+    let id = req.params.id;
+    deleteNote(id, 'db/db.json')
+    
+})
+
 //wild card catches any path that aren't hard coded
 app.get('*', (req, res) => {
     res.send(path.join(__dirname, './public/index.html'));
