@@ -11,7 +11,7 @@
   # Installation
   FS, Express, Path and UUID
   # Usage
-  Terminal and localhost3000
+  Terminal and localhost:3000
   # Contributing
   Felix Willem
   # Tests
