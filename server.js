@@ -4,7 +4,7 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-const PORT = process.env || 3001;
+const PORT = process.env.PORT || 3001;
 
 
 //middleware
