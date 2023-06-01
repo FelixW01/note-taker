@@ -1,5 +1,5 @@
  # Note Taker App
-  https://github.com/FelixW01/Note-Taker-App 
+  https://github.com/FelixW01/note-taker
   # Description
   This is a note taker application. This app was created to cater towards users that wants an application capable of storing notes or to do list for their needs.
   # Table of Contents
