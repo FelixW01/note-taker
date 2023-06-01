@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "title": "Groceries",
+        "text": "80/20 Ground beef\nBrioche buns\nAmerican cheese\nMayo\nKetchup\nMilk\nEggs",
+        "id": "b94fe9ca-4a23-4241-97c0-446657fdd0df"
+    },
+    {
+        "title": "School Supplies",
+        "text": "1\n2\n3\n4\n5\n",
+        "id": "a0bfc5d7-2d86-4265-93b5-d1ac7cae996f"
+    }
+]
