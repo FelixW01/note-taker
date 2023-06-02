@@ -1,5 +1,7 @@
  # Note Taker App
   https://github.com/FelixW01/note-taker
+  # Application Link
+  https://safe-fjord-59891.herokuapp.com/
   # Description
   This is a note taker application. This app was created to cater towards users that wants an application capable of storing notes or to do list for their needs.
   # Table of Contents
@@ -11,7 +13,7 @@
   # Installation
   FS, Express, Path and UUID
   # Usage
-  Terminal and localhost:3000
+  Terminal & Localhost
   # Contributing
   Felix Willem
   # Tests
